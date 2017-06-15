@@ -18,7 +18,6 @@
 
 PKG_NAME="glibc"
 PKG_VERSION="2.24"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.gnu.org/software/libc/"
@@ -159,6 +158,8 @@ post_makeinstall_target() {
   if [ "$TARGET_ARCH" = "arm" -a "$TARGET_FLOAT" = "hard" ]; then
     ln -sf ld.so $INSTALL/usr/lib/ld-linux.so.3
   fi
+
+  find $INSTALL -type f -name \*.so -exec $STRIP --strip-debug {} \;
 }
 
 configure_init() {
@@ -173,9 +174,8 @@ make_init() {
 makeinstall_init() {
   mkdir -p $INSTALL/usr/lib
     cp -PR $ROOT/$PKG_BUILD/.$TARGET_NAME/elf/ld*.so* $INSTALL/usr/lib
-    cp $ROOT/$PKG_BUILD/.$TARGET_NAME/libc.so.6 $INSTALL/usr/lib
-    cp $ROOT/$PKG_BUILD/.$TARGET_NAME/math/libm.so* $INSTALL/usr/lib
-    cp $ROOT/$PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so.0 $INSTALL/usr/lib
+    cp -PR $ROOT/$PKG_BUILD/.$TARGET_NAME/libc.so* $INSTALL/usr/lib
+    cp -PR $ROOT/$PKG_BUILD/.$TARGET_NAME/nptl/libpthread.so* $INSTALL/usr/lib
     cp -PR $ROOT/$PKG_BUILD/.$TARGET_NAME/rt/librt.so* $INSTALL/usr/lib
 
     if [ "$TARGET_ARCH" = "arm" -a "$TARGET_FLOAT" = "hard" ]; then
