@@ -1517,7 +1517,7 @@ static int avl6862_set_frontend(struct dvb_frontend *fe)
 	ret = avl6862_RD_REG32(priv, 0x200 + rs_current_active_mode_iaddr_offset, &demod_mode);
 	if (ret)
 		return ret;
-
+/*
 	if (c->delivery_system == SYS_DVBC_ANNEX_A && c->symbol_rate < 6000000 ) {
 		c->delivery_system = SYS_DVBC_ANNEX_B;
 		c->bandwidth_hz = 6000000;
