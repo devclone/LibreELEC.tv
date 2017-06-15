@@ -1,6 +1,9 @@
 ################################################################################
 # setup system defaults
 ################################################################################
+get_branch() {
+  git rev-parse --abbrev-ref HEAD
+}
 
     TARGET_CPU="cortex-a53"
 
@@ -31,10 +34,18 @@
     KERNEL_TARGET="Image.lzo"
 
   # Kernel extra targets to build
-#    KERNEL_UBOOT_EXTRA_TARGET="gxbb_p200.dtb gxbb_p200_2G.dtb gxl_p230_2g.dtb"
     KERNEL_UBOOT_EXTRA_TARGET="gxbb_p200.dtb"
-#    KERNEL_UBOOT_EXTRA_TARGET="gxbb_p200_2G.dtb"
-#    KERNEL_UBOOT_EXTRA_TARGET="gxl_p230_2g.dtb"
+    case $DEVICE in
+     KI_Plus)
+      KERNEL_UBOOT_EXTRA_TARGET="gxbb_p200.dtb"
+      ;;
+     KI_Pro)
+      KERNEL_UBOOT_EXTRA_TARGET="gxl_p230_2g.dtb"
+      ;;
+     KII_Pro)
+      KERNEL_UBOOT_EXTRA_TARGET="gxl_p212_2g.dtb"
+      ;;
+      esac
 
   # Build Android kernel image using mkbootimg
     BUILD_ANDROID_BOOTIMG="yes"
@@ -51,10 +62,10 @@
   # Kernel to use. values can be:
   # default:  default mainline kernel
     LINUX="custom"
-    KERNEL_VERSION="286e7e1"
+    KERNEL_VERSION="daee10d"
     BUILD_DATE=`date +%Y%m%d%H%M%S`
-#   CUSTOM_VERSION="8.0.2-devel-$BUILD_DATE-g$KERNEL_VERSION-I"
-    CUSTOM_VERSION="8.0.2a-I"
+    CUSTOM_VERSION="8.0.2-devel-$BUILD_DATE-g$KERNEL_VERSION-I"
+    CUSTOM_VERSION="$(get_branch)-I"
     KERNEL_URL="https://github.com/kszaq/linux-amlogic-le/archive/$KERNEL_VERSION.tar.gz"
     KERNEL_SOURCE_DIR="linux-amlogic-le-$KERNEL_VERSION*"
     KERNEL_PATCH_DIRS="amlogic-3.14"
@@ -103,13 +114,13 @@
     KODIPLAYER_DRIVER="libamcodec"
 
   # Modules to install in initramfs for early boot
-    INITRAMFS_MODULES="dwc_otg dwc3 font softcursor bitblit fbcon aml_nftl_dev"
+    INITRAMFS_MODULES="font softcursor bitblit fbcon"
 
   # additional drivers to install:
   # for a list of additinoal drivers see packages/linux-drivers
   # Space separated list is supported,
   # e.g. ADDITIONAL_DRIVERS="DRIVER1 DRIVER2"
-    ADDITIONAL_DRIVERS="gpu-aml media_build"
+    ADDITIONAL_DRIVERS="RTL8192CU RTL8192DU RTL8192EU RTL8812AU gpu-aml qca9377-aml media_build mt7601u-aml mt7603u-aml"
 
   # additional Firmware to use (dvb-firmware, misc-firmware, wlan-firmware)
   # Space separated list is supported,
