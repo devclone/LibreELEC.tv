@@ -18,7 +18,6 @@
 
 PKG_NAME="libressl"
 PKG_VERSION="2.4.4"
-PKG_REV="1"
 PKG_ARCH="any"
 PKG_LICENSE="BSD"
 PKG_SITE="http://www.libressl.org/"
@@ -33,10 +32,7 @@ PKG_IS_ADDON="no"
 PKG_USE_CMAKE="no"
 PKG_AUTORECONF="yes"
 
-post_makeinstall_target() {
-  # backwards compatibility
-  mkdir -p $INSTALL/etc/pki/tls
-    ln -sf /etc/ssl/cert.pem $INSTALL/etc/pki/tls/cacert.pem
-  mkdir -p $INSTALL/etc/pki/tls/certs
-    ln -sf /etc/ssl/cert.pem $INSTALL/etc/pki/tls/certs/ca-bundle.crt
+makeinstall_target() {
+  mkdir -p $INSTALL/usr/lib
+  cp */.libs/*.so.?? $INSTALL/usr/lib/
 }
