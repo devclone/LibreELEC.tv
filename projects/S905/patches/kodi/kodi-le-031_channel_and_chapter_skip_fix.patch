@@ -17,13 +17,13 @@
 +            SetCaching(CACHESTATE_FULL);
 +            usleep(1000000);
 +          }
-+          if (m_clock.GetSpeedAdjust() < -0.05 && m_VideoPlayerAudio->GetLevel() < 1 && m_VideoPlayerVideo->GetLevel() < 1) {
++          if (m_clock.GetSpeedAdjust() < -0.05 && m_VideoPlayerAudio->GetLevel() < 1 && m_VideoPlayerVideo->GetLevel() < 2) {
 +            CLog::Log(LOGNOTICE, "VideoPlayer:Full caching aq:%d vq:%d", m_VideoPlayerAudio->GetLevel(), m_VideoPlayerVideo->GetLevel());
 +            SetCaching(CACHESTATE_FULL);
 +            usleep(400000);
 +            SetCaching(CACHESTATE_PLAY);
 +          }
-+          if (m_clock.GetSpeedAdjust() >= -0.05 && m_VideoPlayerAudio->GetLevel() < 1 && m_VideoPlayerVideo->GetLevel() < 1) {
++          if (m_clock.GetSpeedAdjust() >= -0.05 && m_VideoPlayerAudio->GetLevel() < 1 && m_VideoPlayerVideo->GetLevel() < 2) {
 +            CLog::Log(LOGNOTICE, "VideoPlayer:Prep caching aq:%d vq:%d clock:%0.3f", m_VideoPlayerAudio->GetLevel(), m_VideoPlayerVideo->GetLevel(),  m_clock.GetClock());  
 +            adjust = -0.06; 
 +            usleep(200000);
