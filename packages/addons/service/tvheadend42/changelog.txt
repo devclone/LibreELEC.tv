@@ -1,17 +1,11 @@
-113
-- release 4.2.2
-
-112
-- release 4.2.1
+111b
+- release 4.2.2-49
 
 111a
-- update to Tvheadend 4.1.2526
-- LNB fix for multistandard tuner
-- fix for OTA EPG in multistandard tuner
-- fix for multistandard tuners
+- release 4.2.2-35
 
-110
-- update to Tvheadend 4.1.2425
+111
+- release 4.2.2-32
 
 109
 - update to Tvheadend 4.1.2415
