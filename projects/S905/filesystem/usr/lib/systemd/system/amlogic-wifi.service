@@ -1,9 +1,9 @@
 [Unit]
-Description=Amlogic dummy WiFi module loader
+Description=Amlogic WiFi module loader
 
 [Service]
 Type=simple
-ExecStart=/bin/sh -c "if ! grep -q 0bda /sys/bus/usb/devices/*/idVendor ; then /sbin/modprobe wifi_dummy ; fi"
+ExecStart=/sbin/modprobe wifi_dummy
 
 [Install]
 WantedBy=basic.target
