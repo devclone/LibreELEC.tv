@@ -35,7 +35,7 @@ get_branch() {
 
   # Kernel extra targets to build
     KERNEL_UBOOT_EXTRA_TARGET="gxbb_p200.dtb"
-    case $DEVICE in
+    case $MODEL in
      KI_Plus)
       KERNEL_UBOOT_EXTRA_TARGET="gxbb_p200.dtb"
       ;;
@@ -45,7 +45,7 @@ get_branch() {
      KII_Pro)
       KERNEL_UBOOT_EXTRA_TARGET="gxl_p212_2g.dtb"
       ;;
-      esac
+    esac
 
   # Build Android kernel image using mkbootimg
     BUILD_ANDROID_BOOTIMG="yes"
@@ -62,8 +62,8 @@ get_branch() {
   # Kernel to use. values can be:
   # default:  default mainline kernel
     LINUX="custom"
-    KERNEL_VERSION="daee10d"
-    BUILD_DATE=`date +%Y%m%d%H%M%S`
+    KERNEL_VERSION="00221a7"
+    BUILD_DATE=`date +%Y%m%d%H%M`
     CUSTOM_VERSION="8.0.2-devel-$BUILD_DATE-g$KERNEL_VERSION-I"
     CUSTOM_VERSION="$(get_branch)-I"
     KERNEL_URL="https://github.com/kszaq/linux-amlogic-le/archive/$KERNEL_VERSION.tar.gz"
@@ -114,7 +114,7 @@ get_branch() {
     KODIPLAYER_DRIVER="libamcodec"
 
   # Modules to install in initramfs for early boot
-    INITRAMFS_MODULES="font softcursor bitblit fbcon"
+    INITRAMFS_MODULES="font softcursor bitblit fbcon dwc_otg"
 
   # additional drivers to install:
   # for a list of additinoal drivers see packages/linux-drivers
