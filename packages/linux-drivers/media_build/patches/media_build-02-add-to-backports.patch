@@ -11,9 +11,8 @@
 +add linux-057-Removed-MCE-customer-code-restriction-in-rc6-decode.patch
 +add linux-062-imon_pad_ignore_diagonal.patch
 +add linux-260-fix-for-kernel-4.11.patch
-+add linux-276-meson-ir_c.patch
 +add linux-277-dmx_h.patch
- 
++add cxd2880-support.patch
+
  [4.8.255]
  add v4.8_user_pages_flag.patch
-
