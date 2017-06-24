@@ -1,10 +1,10 @@
 --- a/arch/arm64/boot/dts/amlogic/gxm_q200_2g.dts	2017-02-22 22:00:06.000000000 +0100
 +++ b/arch/arm64/boot/dts/amlogic/gxm_q200_2g.dts	2017-03-04 01:03:28.484949277 +0100
-@@ -40,7 +40,7 @@
+@@ -42,7 +42,7 @@
  	};
  	memory@00000000 {
  		device_type = "memory";
--		linux,usable-memory = <0x0 0x100000 0x0 0x7ff00000>;
+-		linux,usable-memory = <0x0 0x100000 0x0 0x7f000000>;
 +		linux,usable-memory = <0x0 0x100000 0x0 0xbff00000>;
  	};
  
