@@ -49,17 +49,16 @@ for arg in $(cat /proc/cmdline); do
 
       if [ -f "$UPDATE_DTB_SOURCE" ] ; then
         echo "Updating device tree from $UPDATE_DTB_SOURCE..."
-        LD_LIBRARY_PATH="$SYSTEM_ROOT/lib" $SYSTEM_ROOT/usr/sbin/fw_setenv upgrade_step 3 2>/dev/null
         case $boot in
           /dev/system)
-            dd if=$UPDATE_DTB_SOURCE of="/dev/dtb" bs=256k
+            dd if=/dev/zero of=/dev/dtb bs=256k count=1
+            dd if=$UPDATE_DTB_SOURCE of=/dev/dtb bs=256k
             ;;
           /dev/mmc*|LABEL=*)
             mount -o rw,remount $BOOT_ROOT
             cp -f $UPDATE_DTB_SOURCE "$BOOT_ROOT/dtb.img"
             ;;
         esac
-        LD_LIBRARY_PATH="$SYSTEM_ROOT/lib" $SYSTEM_ROOT/usr/sbin/fw_setenv upgrade_step 2 2>/dev/null
       fi
       ;;
     disk=*)
