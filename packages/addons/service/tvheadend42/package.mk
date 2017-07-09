@@ -17,9 +17,9 @@
 ################################################################################
 
 PKG_NAME="tvheadend42"
-PKG_VERSION="4fa99a6"
-PKG_VERSION_NUMBER="4.2.2-49"
-PKG_REV="111b"
+PKG_VERSION="490b6f2"
+PKG_VERSION_NUMBER="4.2.3-19"
+PKG_REV="112d"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvheadend.org"
@@ -79,6 +79,8 @@ pre_configure_target() {
 # transcoding
   if [ "$TARGET_ARCH" = x86_64 ]; then
     export AS=$ROOT/$TOOLCHAIN/bin/yasm
+    export LDFLAGS="$LDFLAGS -lX11 -lm -lvdpau -lva -lva-drm -lva-x11"
+    export ARCH=$TARGET_ARCH
   fi
 
   export CROSS_COMPILE=$TARGET_PREFIX
@@ -94,7 +96,6 @@ fi
 
 post_make_target() {
   $CC -O -fbuiltin -fomit-frame-pointer -fPIC -shared -o capmt_ca.so src/extra/capmt_ca.c -ldl
-  $STRIP $ROOT/$PKG_BUILD/build.linux/tvheadend
 }
 
 makeinstall_target() {
