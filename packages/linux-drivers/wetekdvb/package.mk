@@ -17,8 +17,7 @@
 ################################################################################
 
 PKG_NAME="wetekdvb"
-PKG_VERSION="20161127"
-PKG_REV="1"
+PKG_VERSION="20170608"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="nonfree"
 PKG_SITE="http://www.wetek.com/"
@@ -46,4 +45,8 @@ makeinstall_target() {
 
   mkdir -p $INSTALL/usr/lib/firmware
     cp firmware/* $INSTALL/usr/lib/firmware
+}
+
+post_install() {
+  enable_service wetekdvb.service
 }
