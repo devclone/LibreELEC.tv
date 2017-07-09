@@ -1,5 +1,30 @@
---- a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp	2017-04-21 14:42:16.371525222 +0200
-+++ b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp	2017-04-21 14:43:32.295525222 +0200
+From db079d2aa819da24b158ec9040ba7bad768662b4 Mon Sep 17 00:00:00 2001
+From: RealJohnGalt <johngalt@fake.mail>
+Date: Fri, 7 Jul 2017 00:02:53 -0700
+Subject: [PATCH] VideoPlayer: @afl1 lateframes
+
+---
+ xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp |  4 ++--
+ xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp | 10 +++++++---
+ 2 files changed, 9 insertions(+), 5 deletions(-)
+
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp
+index b324e3a..7689597 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp
+@@ -108,7 +108,7 @@ void CDebugRenderer::CRenderer::Render(int idx)
+ {
+   std::vector<COverlay*> render;
+   std::vector<SElement>& list = m_buffers[idx];
+-  float posY = 0.0f;
++  float posY = 200.0f;
+   for (std::vector<SElement>::iterator it = list.begin(); it != list.end(); ++it)
+   {
+     COverlay* o = nullptr;
+diff --git a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
+index 7023dfe..dfc0aac 100644
+--- a/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
++++ b/xbmc/cores/VideoPlayer/VideoRenderers/RenderManager.cpp
 @@ -316,7 +316,7 @@
      m_lateframes = -1.0;
      m_presentevent.notifyAll();
@@ -9,7 +34,7 @@
      m_clockSync.Reset();
      m_dvdClock.SetVsyncAdjust(0);
  
-@@ -1287,7 +1287,7 @@
+@@ -1281,7 +1281,7 @@ void CRenderManager::PrepareNextRender()
      double err = fmod(renderPts - nextFramePts, frametime);
      m_clockSync.m_error += err;
      m_clockSync.m_errCount ++;
@@ -18,12 +43,12 @@
      {
        double average = m_clockSync.m_error / m_clockSync.m_errCount;
        m_clockSync.m_syncOffset = average;
-@@ -1315,9 +1315,13 @@
-       // renderer/drivers have internal queues, being slightliy late here does not mean that
+@@ -1309,9 +1309,13 @@ void CRenderManager::PrepareNextRender()
+       // renderer/drivers have internal queues, being slightly late here does not mean that
        // we are really late. The likelihood that we recover decreases the greater m_lateframes
        // get. Skipping a frame is easier than having decoder dropping one (lateframes > 10)
 -      double x = (m_lateframes <= 6) ? 0.98 : 0;
-+      double x = (m_lateframes <= 10) ? 9.9 : 3.0;
++      double x = (m_lateframes <= 10) ? 1.9 : 0.0;
 +      std::string audio, video, player; char a[10],v[10];
 +      m_playerPort->GetDebugInfo(audio, video, player); audio.copy(a, 6); a[6]=0; video.copy(v, 6); v[6]=0;
        if (renderPts < m_Queue[*iter].pts + x * frametime)
@@ -33,33 +58,15 @@
        idx = *iter;
        ++iter;
      }
-@@ -1327,7 +1329,7 @@ void CRenderManager::PrepareNextRender()
+@@ -1325,7 +1329,7 @@ void CRenderManager::PrepareNextRender()
  
-     int lateframes = (renderPts - m_Queue[idx].pts) * m_fps / DVD_TIME_BASE;
+     int lateframes = static_cast<int>((renderPts - m_Queue[idx].pts) * m_fps / DVD_TIME_BASE);
      if (lateframes)
 -      m_lateframes += lateframes;
 +      m_lateframes = lateframes;
      else
        m_lateframes = 0;
- 
---- a/xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp	2017-05-11 10:02:20.000000000 +0200
-+++ b/xbmc/cores/VideoPlayer/VideoRenderers/DebugRenderer.cpp	2017-05-15 14:09:27.039080736 +0200
-@@ -108,7 +108,7 @@
- {
-   std::vector<COverlay*> render;
-   std::vector<SElement>& list = m_buffers[idx];
--  int posY = 0;
-+  int posY = 200;
-   for (std::vector<SElement>::iterator it = list.begin(); it != list.end(); ++it)
-   {
-     COverlay* o = nullptr;
-@@ -121,7 +121,7 @@
- 
-     COverlayText *text = dynamic_cast<COverlayText*>(o);
-     if (text)
--      text->PrepareRender("arial.ttf", 1, 16, 0, m_font, m_fontBorder);
-+      text->PrepareRender("teletext.ttf", 1, 16, 0, m_font, m_fontBorder);
- 
-     RESOLUTION_INFO res = g_graphicsContext.GetResInfo(g_graphicsContext.GetVideoResolution());
- 
+     
+-- 
+2.13.0
 
