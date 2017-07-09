@@ -17,8 +17,8 @@
 ################################################################################
 
 PKG_NAME="ffmpeg"
-# Current branch is: release/3.3-kodi
-PKG_VERSION="eb0819c"
+# Current branch is: release/3.3.2-Leia-Alpha
+PKG_VERSION="30554d7"
 PKG_ARCH="any"
 PKG_LICENSE="LGPLv2.1+"
 PKG_SITE="https://ffmpeg.org"
@@ -61,10 +61,7 @@ fi
 
 case "$TARGET_ARCH" in
   arm)
-    FFMPEG_TABLES="--enable-hardcoded-tables"
-    ;;
-  *)
-    FFMPEG_TABLES="--disable-hardcoded-tables"
+    CFLAGS="$CFLAGS -mthumb"
     ;;
 esac
 
@@ -164,7 +161,7 @@ configure_target() {
               $FFMPEG_VDPAU \
               --disable-dxva2 \
               --enable-runtime-cpudetect \
-              $FFMPEG_TABLES \
+              --disable-encoders \
               --enable-encoder=ac3 \
               --enable-encoder=aac \
               --enable-encoder=wmav2 \
