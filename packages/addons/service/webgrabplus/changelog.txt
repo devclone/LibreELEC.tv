@@ -1,3 +1,7 @@
+104b
+- upgrade seiteini.pack to 20170630
+- Upgrade WebGrab+Plus to 2.1
+
 104
 - Upgrade siteini.pack to 20161021
 - Add system.d timer
