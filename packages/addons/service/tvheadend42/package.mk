@@ -17,15 +17,16 @@
 ################################################################################
 
 PKG_NAME="tvheadend42"
-PKG_VERSION="490b6f2"
-PKG_VERSION_NUMBER="4.2.3-19"
-PKG_REV="112d"
+PKG_SHA256="d1c6a2fe88c09f953038474f41162cad7913645437d20f68414e9fa4047fe21a"
+PKG_VERSION="407c8a3"
+PKG_VERSION_NUMBER="4.2.3-20"
+PKG_REV="112e"
 PKG_ARCH="any"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvheadend.org"
 PKG_URL="https://github.com/tvheadend/tvheadend/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="tvheadend-${PKG_VERSION}*"
-PKG_DEPENDS_TARGET="toolchain curl dvb-tools libdvbcsa libiconv openssl libhdhomerun pngquant:host Python:host yasm"
+PKG_DEPENDS_TARGET="toolchain curl dvb-tools libdvbcsa libiconv openssl pngquant:host Python:host yasm"
 PKG_SECTION="service"
 PKG_SHORTDESC="Tvheadend: a TV streaming server for Linux"
 PKG_LONGDESC="Tvheadend ($PKG_VERSION_NUMBER): is a TV streaming server for Linux supporting DVB-S/S2, DVB-C, DVB-T/T2, IPTV, SAT>IP, ATSC and ISDB-T"
@@ -37,7 +38,7 @@ PKG_ADDON_TYPE="xbmc.service"
 
 # transcoding only for generic
 if [ "$TARGET_ARCH" = x86_64 ]; then
-  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET libva-intel-driver"
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET intel-vaapi-driver"
   TVH_TRANSCODING="--enable-ffmpeg_static --enable-libav --enable-libfdkaac --disable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265 --disable-qsv"
 else
   TVH_TRANSCODING="--disable-ffmpeg_static --disable-libav"
@@ -64,21 +65,21 @@ PKG_CONFIGURE_OPTS_TARGET="--prefix=/usr \
                            --enable-trace \
                            --nowerror \
                            --disable-bintray_cache \
-                           --python=$ROOT/$TOOLCHAIN/bin/python"
+                           --python=$TOOLCHAIN/bin/python"
 
 post_unpack() {
   sed -e 's/VER="0.0.0~unknown"/VER="'$PKG_VERSION_NUMBER' ~ LibreELEC Tvh-addon v'$ADDON_VERSION'.'$PKG_REV'"/g' -i $PKG_BUILD/support/version
-  sed -e 's|'/usr/bin/pngquant'|'$ROOT/$TOOLCHAIN/bin/pngquant'|g' -i $PKG_BUILD/support/mkbundle
+  sed -e 's|'/usr/bin/pngquant'|'$TOOLCHAIN/bin/pngquant'|g' -i $PKG_BUILD/support/mkbundle
 }
 
 pre_configure_target() {
 # fails to build in subdirs
-  cd $ROOT/$PKG_BUILD
+  cd $PKG_BUILD
   rm -rf .$TARGET_NAME
 
 # transcoding
   if [ "$TARGET_ARCH" = x86_64 ]; then
-    export AS=$ROOT/$TOOLCHAIN/bin/yasm
+    export AS=$TOOLCHAIN/bin/yasm
     export LDFLAGS="$LDFLAGS -lX11 -lm -lvdpau -lva -lva-drm -lva-x11"
     export ARCH=$TARGET_ARCH
   fi
