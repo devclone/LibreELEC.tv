@@ -17,11 +17,11 @@
 ################################################################################
 
 PKG_NAME="dvb_tv-aml"
-PKG_VERSION="6bfb250"
+PKG_VERSION="049cd45"
 PKG_REV="1"
 PKG_ARCH="arm aarch64"
 PKG_LICENSE="GPL"
-PKG_SITE="https://github.com/kszaq/dvb_tv-aml"
+PKG_SITE="https://github.com/afl1/dvb_tv-aml"
 PKG_URL="$PKG_SITE/archive/$PKG_VERSION.tar.gz"
 PKG_SOURCE_DIR="$PKG_NAME-$PKG_VERSION*"
 PKG_DEPENDS_TARGET="toolchain"
